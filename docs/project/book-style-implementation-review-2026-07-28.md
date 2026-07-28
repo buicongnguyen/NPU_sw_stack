@@ -76,3 +76,15 @@ and back. The observed main background changed from `rgb(244, 247, 251)` to
 
 - Browser rendering was inspected in one Chromium-based surface.
 - No Python/C++, WSL, Spike, model, timing, or RTL test was run.
+
+## Dark-mode comfort follow-up
+
+The palette control now exposes a visible **Dark mode** or **Light mode** label
+on desktop instead of relying on an ambiguous icon. Compact screens retain the
+icon and accessible action name so the header does not become crowded.
+
+The dark scheme coordinates the book canvas, chapter pane, header, search,
+tables, code, links, selection, blockquotes, borders, and footer around a
+low-glare blue-gray palette. Dark mode remains an explicit reader choice and
+persists through Material for MkDocs' palette behavior; light mode remains the
+first-visit default.

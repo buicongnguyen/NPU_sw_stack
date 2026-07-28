@@ -16,24 +16,25 @@ theme:
   features:
     - content.action.edit
     - content.code.copy
+    - navigation.expand
     - navigation.footer
     - navigation.indexes
+    - navigation.sections
     - navigation.top
     - navigation.tracking
     - search.highlight
     - search.share
     - search.suggest
     - toc.follow
+    - toc.integrate
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: indigo
-      accent: teal
+    - scheme: default
+      primary: white
+      accent: indigo
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
+    - scheme: slate
       primary: black
       accent: teal
       toggle:
@@ -167,6 +168,9 @@ nav:
       - Static code review: project/static-code-review-2026-07-28.md
       - Post-deployment logic review: project/post-deployment-logic-review-2026-07-28.md
       - Post-deployment code review: project/post-deployment-code-review-2026-07-28.md
+      - Book style migration plan: project/book-style-plan-2026-07-28.md
+      - Book style logic review: project/book-style-logic-review-2026-07-28.md
+      - Book style implementation review: project/book-style-implementation-review-2026-07-28.md
       - Summary and review: chapter_14_verification/review.md
   - Project journal:
       - Journal index: progress.md

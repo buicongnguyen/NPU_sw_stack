@@ -27,6 +27,7 @@ MkDocsLoader.add_multi_constructor(
 )
 
 MARKDOWN_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
+HTML_ATTRIBUTE_LINK = re.compile(r"""(?:href|src)=["']([^"']+)["']""")
 LIQUID = re.compile(r"\{\{\s*[^}]*relative_url[^}]*\}\}|\{%\s*(?:assign|for|else|endfor)\b")
 RECORD_TYPE = re.compile(
     r"(?m)^record_type:\s*(decision|local_check|observation)\s*$"
@@ -76,7 +77,8 @@ def main() -> int:
     errors: list[str] = []
 
     markdown_files = repository_files(root, {".md"})
-    text_files = repository_files(root, {".md", ".yml", ".yaml"})
+    yaml_files = repository_files(root, {".cff", ".yml", ".yaml"})
+    text_files = repository_files(root, {".cff", ".md", ".yml", ".yaml"})
 
     for path in text_files:
         relative = path.relative_to(root).as_posix()
@@ -114,8 +116,11 @@ def main() -> int:
                     f"line {exc.lineno}, column {exc.colno}: {exc.msg}"
                 )
 
-        for match in MARKDOWN_LINK.finditer(content):
-            raw = match.group(1)
+        link_targets = [match.group(1) for match in MARKDOWN_LINK.finditer(content)]
+        link_targets.extend(
+            match.group(1) for match in HTML_ATTRIBUTE_LINK.finditer(content)
+        )
+        for raw in link_targets:
             if re.search(r"(GITHUB_USER|github\.com/OWNER/|example\.com)", raw):
                 errors.append(f"{relative}: unresolved placeholder link '{raw}'")
                 continue
@@ -124,13 +129,17 @@ def main() -> int:
                 errors.append(f"{relative}: broken local link '{raw}'")
 
     config_path = root / "mkdocs.yml"
-    try:
-        config = yaml.load(
-            config_path.read_text(encoding="utf-8"), Loader=MkDocsLoader
-        )
-    except (OSError, yaml.YAMLError) as exc:
-        errors.append(f"mkdocs.yml: cannot parse configuration: {exc}")
-        config = {}
+    parsed_yaml: dict[Path, object] = {}
+    for path in yaml_files:
+        relative = path.relative_to(root).as_posix()
+        try:
+            parsed_yaml[path] = yaml.load(
+                path.read_text(encoding="utf-8"), Loader=MkDocsLoader
+            )
+        except (OSError, yaml.YAMLError) as exc:
+            errors.append(f"{relative}: cannot parse YAML: {exc}")
+
+    config = parsed_yaml.get(config_path, {})
 
     targets = nav_targets(config.get("nav", [])) if isinstance(config, dict) else []
     seen: set[str] = set()
@@ -154,6 +163,12 @@ def main() -> int:
                 errors.append(f"{required}: required chapter page is missing")
             elif required not in seen:
                 errors.append(f"mkdocs.yml: chapter page is not in nav: '{required}'")
+
+    documented_pages = {
+        path.relative_to(docs).as_posix() for path in docs.rglob("*.md")
+    }
+    for target in sorted(documented_pages - seen):
+        errors.append(f"mkdocs.yml: documentation page is not in nav: '{target}'")
 
     if errors:
         for error in sorted(set(errors)):

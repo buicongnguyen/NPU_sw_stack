@@ -16,6 +16,20 @@ candidate is complete enough for implementation review. Its immutable
 repository revision and public Pages deployment are recorded at publication.
 It is not evidence that the simulator, compiler, or Spike integration works.
 
+## Published documentation baseline
+
+| Item | Recorded identity |
+|---|---|
+| Public repository | [`buicongnguyen/NPU_sw_stack`](https://github.com/buicongnguyen/NPU_sw_stack) |
+| Reviewed deployed revision | [`3b08e96`](https://github.com/buicongnguyen/NPU_sw_stack/commit/3b08e96a591707823c7f5b57c0d7457f2513d834) |
+| Successful Pages run | [`30335780398`](https://github.com/buicongnguyen/NPU_sw_stack/actions/runs/30335780398) |
+| Public chapter book | [`buicongnguyen.github.io/NPU_sw_stack`](https://buicongnguyen.github.io/NPU_sw_stack/) |
+
+The site follows `main`, so later deployments have their own immutable workflow
+run and commit. See the
+[publication observation](_posts/2026-07-28-github-pages-publication.md) for
+the evidence boundary.
+
 ## Read by goal
 
 | If you want to... | Read |

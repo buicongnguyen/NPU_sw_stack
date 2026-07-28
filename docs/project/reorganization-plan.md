@@ -212,6 +212,11 @@ Status: **complete locally** — repository checker and strict MkDocs build pass
 Exit: repository and production Pages URL are reachable, and the deployment
 run is successful.
 
+Status: **complete** — the public repository and Pages site were observed at
+revision [`3b08e96`](https://github.com/buicongnguyen/NPU_sw_stack/commit/3b08e96a591707823c7f5b57c0d7457f2513d834)
+in successful workflow run
+[`30335780398`](https://github.com/buicongnguyen/NPU_sw_stack/actions/runs/30335780398).
+
 ## Logic safeguards
 
 - Chapter introductions summarize; normative pages define behavior.

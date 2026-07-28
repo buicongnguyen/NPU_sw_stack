@@ -165,9 +165,12 @@ nav:
       - Reorganization plan: project/reorganization-plan.md
       - Reorganization logic review: project/reorganization-logic-review.md
       - Static code review: project/static-code-review-2026-07-28.md
+      - Post-deployment logic review: project/post-deployment-logic-review-2026-07-28.md
+      - Post-deployment code review: project/post-deployment-code-review-2026-07-28.md
       - Summary and review: chapter_14_verification/review.md
   - Project journal:
       - Journal index: progress.md
+      - GitHub and Pages publication: _posts/2026-07-28-github-pages-publication.md
       - V1 documentation release candidate: _posts/2026-07-28-v1-documentation-baseline.md
       - Documentation-first review: _posts/2026-07-27-documentation-first-review.md
       - Project kickoff: _posts/2026-07-27-project-kickoff.md

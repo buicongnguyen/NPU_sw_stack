@@ -33,6 +33,8 @@ Each entry should include:
 
 ## Entries
 
+- [2026-07-28 — GitHub repository and Pages publication observed](_posts/2026-07-28-github-pages-publication.md)
+  (`observation`)
 - [2026-07-28 — V1 documentation baseline](_posts/2026-07-28-v1-documentation-baseline.md)
   (`local_check`)
 - [2026-07-27 — Documentation-first review](_posts/2026-07-27-documentation-first-review.md)

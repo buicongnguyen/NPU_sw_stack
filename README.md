@@ -32,9 +32,10 @@ branches.
 **Documentation published; implementation verification deferred.**
 
 The chapter book, architecture, and interface contracts are ready for review.
-The source scaffold has received a static logic/code review, but Linux builds,
-numerical tests, Spike integration, timing, and RTL results are intentionally
-not claimed. Those gates will be run after the WSL environment is configured.
+The source scaffold has received static logic/code review and source-level
+remediation, but Linux builds, numerical tests, Spike integration, timing, and
+RTL results are intentionally not claimed. Those gates will be run after the
+WSL environment is configured.
 
 Start with:
 
@@ -44,7 +45,8 @@ Start with:
 - [the reorganization logic review](docs/project/reorganization-logic-review.md);
 - [the static code review](docs/project/static-code-review-2026-07-28.md);
 - [the post-deployment logic review](docs/project/post-deployment-logic-review-2026-07-28.md);
-- [the post-deployment static code review](docs/project/post-deployment-code-review-2026-07-28.md).
+- [the post-deployment static code review](docs/project/post-deployment-code-review-2026-07-28.md);
+- [the static remediation review](docs/project/static-remediation-review-2026-07-28.md).
 
 ## Book structure
 

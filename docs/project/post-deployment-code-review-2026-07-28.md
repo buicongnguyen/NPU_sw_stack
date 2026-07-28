@@ -1,6 +1,6 @@
 # Post-deployment static code review
 
-Status: **reviewed statically; implementation fixes remain deferred**
+Status: **historical baseline; findings remediated statically, execution deferred**
 
 Review date: **2026-07-28**
 
@@ -11,6 +11,12 @@ PowerShell entry points, documentation validation, and GitHub workflows.
 
 No Python numerical test, C++ build, sanitizer, Docker build, WSL command,
 Spike run, model inference, timing model, or RTL simulation was executed.
+
+Follow-up: C1-C7 and the native-command propagation gap received source and
+test corrections in the
+[static remediation review](static-remediation-review-2026-07-28.md).
+The historical findings below describe the reviewed baseline; execution and
+verification remain deferred.
 
 ## Verdict
 
@@ -33,6 +39,8 @@ Required after WSL setup:
 - add extreme finite, quotient-overflow, and dequantization-overflow vectors;
 - compare stable error categories across Python and C++.
 
+Resolution status: **corrected statically with deferred matching tests**.
+
 ### C2 — Zero-sized GEMM remains accepted below an ABI that rejects it
 
 The v1 numerical and command contracts reject zero `M`, `N`, or `K`. Current
@@ -40,6 +48,9 @@ Python/C++ helpers can return empty or zero-valued output for some zero shapes.
 
 Required after WSL setup: reject each zero dimension and add matching language
 tests.
+
+Resolution status: **corrected statically with zero-`M`, zero-`N`, and
+zero-`K` cases in both suites**.
 
 ### C3 — Native command failures can still be reported as success
 
@@ -50,6 +61,9 @@ does not make this reliable across PowerShell versions.
 Required after WSL setup: centralize native invocation, report command and exit
 code, and prove propagation with a controlled failure.
 
+Resolution status: **centralized helper and controlled failure check added;
+execution pending**.
+
 ## P2 implementation and test findings
 
 ### C4 — Requantization helper inputs remain broader than ABI 1.0
@@ -58,23 +72,34 @@ Python accepts arbitrary integer-like multipliers and zero points; C++ accepts
 non-positive multipliers and nonzero zero points. Decide whether these are
 general teaching helpers or ABI-specific entry points.
 
+Resolution status: **public helper narrowed to the ABI 1.0 rules; execution
+pending**.
+
 ### C5 — Python silently coerces invalid input categories
 
 `np.asarray(..., dtype=np.int64)` and explicit `int(...)` calls can accept
 floats or numeric strings before validation. Validate type/category before
 conversion.
 
+Resolution status: **integer categories are validated before conversion;
+deferred rejection cases cover scalar and GEMM inputs**.
+
 ### C6 — Cross-language evidence remains asymmetric
 
-Python owns randomized GEMM coverage while C++ consumes a small requantization
-fixture and one known GEMM. Create one versioned shared corpus for valid and
-invalid cases.
+At the reviewed baseline, Python owned randomized GEMM coverage while C++
+consumed a small requantization fixture and one known GEMM. The correction
+requires one versioned shared corpus for both languages.
+
+Resolution status: **both suites consume the same versioned 1,000-case seeded
+corpus configuration; execution pending**.
 
 ### C7 — One C++ boundary assertion is implementation-sensitive
 
 The C++ test converts unsigned `0x80000000U` to signed INT32 for its expected
 value. Replace that conversion with `std::numeric_limits<std::int32_t>::min()`
 when implementation work resumes.
+
+Resolution status: **corrected statically**.
 
 ### C8 — Dependency pinning is not a complete lock
 

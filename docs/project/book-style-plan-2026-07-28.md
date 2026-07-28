@@ -1,6 +1,6 @@
 # Chapter-book style migration plan
 
-Status: **implemented locally; deployment pending**
+Status: **implemented and deployed**
 
 Date: **2026-07-28**
 
@@ -106,3 +106,12 @@ On smaller screens:
 - Copying the reference site's custom framework or CSS
 - Changing chapter content, normative contracts, or implementation status
 - Running the deferred NPU implementation tests
+
+## Deployment result
+
+The style migration was merged in pull request
+[#2](https://github.com/buicongnguyen/NPU_sw_stack/pull/2) at revision
+[`47897a9`](https://github.com/buicongnguyen/NPU_sw_stack/commit/47897a993a4676dd9a90e7b8bef2a7987c0b96e1).
+GitHub Pages workflow run
+[`30337855340`](https://github.com/buicongnguyen/NPU_sw_stack/actions/runs/30337855340)
+successfully deployed the public book.

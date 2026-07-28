@@ -1,6 +1,6 @@
 # Static code and repository review
 
-Status: **reviewed statically; fixes and execution deferred**
+Status: **historical baseline; findings remediated statically, execution deferred**
 
 Date: **2026-07-28**
 
@@ -9,6 +9,10 @@ build/CI files, documentation tooling, and publication readiness.
 
 Follow-up: the deployed tree received a
 [post-deployment static review](post-deployment-code-review-2026-07-28.md).
+The actionable numerical and PowerShell findings were subsequently corrected
+at source level in the
+[static remediation review](static-remediation-review-2026-07-28.md);
+execution remains deferred.
 
 No Python test, C++ build, Docker build, WSL command, sanitizer, or simulator
 was executed for this review.
@@ -40,6 +44,9 @@ Required later fix:
 - Make Python/C++ saturation or error categories identical.
 - Add extreme finite, division-overflow, and dequantization-overflow vectors.
 
+Resolution status: **corrected statically; execution pending**. See the
+[static remediation review](static-remediation-review-2026-07-28.md).
+
 ### C2 — Zero-sized GEMM contradicts the normative v1 contract
 
 The contract rejects zero `M`, `N`, or `K`. Current Python and C++ helpers can
@@ -50,6 +57,8 @@ Required later fix:
 - Reject each zero dimension in both languages.
 - Add one named case per dimension.
 - Keep ABI and helper behavior aligned.
+
+Resolution status: **corrected statically; execution pending**.
 
 ### C3 — Native PowerShell failures may be reported as success
 
@@ -64,6 +73,9 @@ Required later fix:
 - Check and report the exact command/exit code.
 - Add a controlled failure-propagation test.
 - Provide Linux-native entry points when WSL work begins.
+
+Resolution status: **PowerShell propagation corrected statically; controlled
+execution and Linux-native entry points pending**.
 
 ### C4 — Automatic implementation CI would overtake the declared phase
 
@@ -92,12 +104,16 @@ multipliers and nonzero signed-INT8 zero points.
 Decision for E1: either narrow public helpers to ABI 1.0 or name a general
 teaching helper separately from the ABI function.
 
+Resolution status: **helper narrowed to ABI 1.0; execution pending**.
+
 ### C6 — Python GEMM silently coerces non-integer inputs
 
 `np.asarray(..., dtype=np.int64)` converts floats and numeric strings before
 range validation. This can hide invalid compiler/reference inputs.
 
 Required later fix: validate integer type/category before conversion.
+
+Resolution status: **corrected statically; execution pending**.
 
 ### C7 — Cross-language evidence is asymmetric
 
@@ -106,6 +122,9 @@ requantization CSV. Neither language covers all newly frozen rejection rules.
 
 Required later fix: generate one versioned shared corpus and consume identical
 cases in both languages.
+
+Resolution status: **versioned shared corpus configuration added; execution
+pending**.
 
 ### C8 — The existing documentation checker is tied to Jekyll
 

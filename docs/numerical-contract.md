@@ -144,10 +144,11 @@ Reference GEMM stores:
 
 ## Planned evidence gate
 
-The shared requantization fixture is:
+The shared numerical fixtures are:
 
 ```text
 tests/fixtures/numerics/requantize.csv
+tests/fixtures/numerics/gemm-corpus.csv
 ```
 
 When execution resumes, run:
@@ -156,10 +157,10 @@ When execution resumes, run:
 ./scripts/test.ps1 -Group numerics
 ```
 
-The gate will include shared named cases and at least 1,000 seeded GEMM cases
-consumed by both Python and C++. It will compare serialized outputs and stable
-error categories, including INT32 wrap cases and extreme finite quantization
-inputs.
+The source scaffold includes shared named requantization cases and a versioned
+configuration for 1,000 seeded GEMM cases consumed by both Python and C++.
+When executed, the gate will compare outputs and stable error categories,
+including INT32 wrap cases and extreme finite quantization inputs.
 
 ## Primary references
 

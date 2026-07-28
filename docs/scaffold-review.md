@@ -12,6 +12,10 @@ Scope: read-only review of the Phase 0 and numerical source scaffold. No Python
 test, C++ build, Docker build, or WSL command was executed after the user chose
 the documentation-first checkpoint.
 
+Follow-up: S1-S4 and S8 received source and test corrections in the
+[static remediation review](project/static-remediation-review-2026-07-28.md).
+Their execution gates remain deferred.
+
 Verdict: **useful scaffold, not yet approved as a verified implementation**
 
 ## Priority findings
@@ -25,6 +29,9 @@ The PowerShell scripts use native programs such as `python`, `pip`, `docker`,
 every nonzero native exit code into a terminating error across PowerShell
 versions. Some calls check `$LASTEXITCODE`, but others do not, and
 `bootstrap.ps1` can print “Bootstrap complete” after a failed native command.
+
+Resolution status: **centralized native-command checking and a controlled
+failure test are present; execution pending**.
 
 Required correction before E0:
 
@@ -41,6 +48,9 @@ Python runs 1,000 seeded GEMM cases, while the C++ test consumes only the small
 requantization CSV and one known GEMM. This does not yet prove that both
 implementations agree on the same randomized GEMMs.
 
+Resolution status: **both suites now consume one versioned seeded corpus
+configuration; execution pending**.
+
 Required correction before E1:
 
 - Generate shared binary/CSV/JSON GEMM vectors once.
@@ -52,11 +62,14 @@ Required correction before E1:
 
 Priority: **high**
 
-The numerical contract now requires safe saturation when finite quantization
+The numerical contract requires safe saturation when finite quantization
 division is unrepresentable and a stable invalid-numeric category when
-dequantization cannot produce a finite result. Current Python and C++ behavior
-can diverge near INT64 limits, and the C++ boundary comparison uses inexact
-`double` representations of those endpoints.
+dequantization cannot produce a finite result. At the reviewed baseline,
+Python and C++ behavior could diverge near INT64 limits, and the C++ boundary
+comparison used inexact `double` representations of those endpoints.
+
+Resolution status: **the unsafe conversion path was removed and matching
+deferred tests were added**.
 
 Required correction before E1:
 
@@ -69,9 +82,12 @@ Required correction before E1:
 
 Priority: **medium**
 
-The v1 numerical contract and command ABI reject zero `m`, `n`, and `k`.
-Current helpers can still return empty or zero-valued output for some zero
-shapes.
+The v1 numerical contract and command ABI reject zero `m`, `n`, and `k`. At
+the reviewed baseline, helpers could return empty or zero-valued output for
+some zero shapes.
+
+Resolution status: **both helpers now reject all three zero dimensions;
+execution pending**.
 
 Required correction:
 
@@ -130,6 +146,9 @@ Priority: **medium**
 
 C++ lacks named invalid-argument, shape-overflow, zero-dimension, and extreme
 rounding cases present or implied in the Python suite and plan.
+
+Resolution status: **zero-dimension, extreme numeric, requantization legality,
+and shared-corpus cases were added; shape-overflow execution remains pending**.
 
 Required correction:
 

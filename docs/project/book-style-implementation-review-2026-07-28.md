@@ -1,10 +1,10 @@
 # Chapter-book style implementation review
 
-Status: **local documentation review passed; deployment pending**
+Status: **local and production documentation review passed**
 
 Date: **2026-07-28**
 
-Evidence type: `local_check`
+Evidence type: `local_check` plus production deployment observation
 
 Scope: generated MkDocs site for the book-style configuration and original CSS
 changes. This is not an NPU implementation review.
@@ -58,10 +58,21 @@ and back. The observed main background changed from `rgb(244, 247, 251)` to
 - `mkdocs build --strict` passed.
 - All new plan/review pages were included in explicit navigation.
 
+## Production observation
+
+- Pull request
+  [#2](https://github.com/buicongnguyen/NPU_sw_stack/pull/2) merged the change at
+  revision
+  [`47897a9`](https://github.com/buicongnguyen/NPU_sw_stack/commit/47897a993a4676dd9a90e7b8bef2a7987c0b96e1).
+- GitHub Pages workflow run
+  [`30337855340`](https://github.com/buicongnguyen/NPU_sw_stack/actions/runs/30337855340)
+  completed successfully.
+- The public numerical-contract page returned the deployed stylesheet and
+  reproduced the 64 px header, 280 px independently scrolling chapter pane,
+  840 px article, integrated bookmarks, and absent right sidebar.
+- The public review page and canonical book URL returned successfully.
+
 ## Limitations
 
-- This check used the locally generated site before publication.
 - Browser rendering was inspected in one Chromium-based surface.
-- Production CDN behavior and public URLs must be checked after the Pages
-  workflow completes.
 - No Python/C++, WSL, Spike, model, timing, or RTL test was run.

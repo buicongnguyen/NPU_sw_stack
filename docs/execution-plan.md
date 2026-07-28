@@ -74,7 +74,7 @@ Every evidence manifest should contain:
 
 ## D0 — Readable documentation release
 
-Status: **in review**
+Status: **published**
 
 Deliverables:
 
@@ -118,6 +118,8 @@ docs/setup-wsl.md
 scripts/bootstrap.ps1
 scripts/build.ps1
 scripts/test.ps1
+scripts/common.ps1
+scripts/test_native_command.ps1
 .github/workflows/ci.yml
 ```
 
@@ -128,6 +130,7 @@ Current Windows/Docker scaffold:
 ```powershell
 ./scripts/bootstrap.ps1
 ./scripts/build.ps1
+./scripts/test.ps1 -Group tooling
 ./scripts/test.ps1
 ```
 
@@ -161,6 +164,7 @@ include/npu/numerics.h
 src/numerics.cpp
 tests/python/test_numerics.py
 tests/cpp/test_numerics.cpp
+tests/fixtures/numerics/
 docs/numerical-contract.md
 ```
 

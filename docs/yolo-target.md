@@ -243,8 +243,9 @@ format, arithmetic, host/NPU partition, and postprocessing location.
 
 **Severity:** High
 
-**Resolution:** YOLO is preceded by exact integer arithmetic, GEMM, convolution,
-compiler, Spike, and tiny-CNN gates.
+**Resolution:** YOLO is preceded by exact integer arithmetic, GEMM, the native
+command device, compiler, Spike/runtime integration, convolution, and tiny-CNN
+gates, in that dependency order.
 
 ### Finding YL3 — Official ONNX output is not the desired raw NPU boundary
 

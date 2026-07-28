@@ -48,6 +48,14 @@ numerics -> GEMM -> Conv -> compiler -> Spike -> tiny CNN -> YOLOv8n
 
 YOLO is not allowed to bypass the smaller correctness stages.
 
+> **Follow-up (2026-07-28):** The dependency review found that this original
+> sequence asked the convolution lesson to use compiler machinery before the
+> compiler existed. The canonical course now inserts the command/native-device
+> and compiler/runtime gates before convolution:
+> `baseline -> integers -> GEMM -> commands/native device -> compiler ->
+> runtime/Spike -> convolution -> tiny CNN -> YOLOv8n`. See the
+> [content and logic review](../project/content-logic-review-2026-07-28.md).
+
 ## References
 
 - [YOLOv8 documentation](https://docs.ultralytics.com/models/yolov8/)

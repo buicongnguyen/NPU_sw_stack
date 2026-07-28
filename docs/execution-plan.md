@@ -215,10 +215,10 @@ tests/cpp/test_abi.cpp
 
 - `DMA_LOAD`
 - `DMA_STORE`
-- `GEMM`
-- `ADD_BIAS`
-- `RELU`
-- `REQUANTIZE`
+- `GEMM_I8_I8_I32`
+- `ADD_BIAS_I32`
+- `RELU_I32`
+- `REQUANTIZE_I32_I8`
 - `BARRIER`
 - `END`
 
@@ -284,10 +284,10 @@ A handcrafted command buffer performs:
 
 ```text
 DMA_LOAD A/B/bias
--> GEMM
--> ADD_BIAS
--> RELU
--> REQUANTIZE
+-> GEMM_I8_I8_I32
+-> ADD_BIAS_I32
+-> RELU_I32
+-> REQUANTIZE_I32_I8
 -> DMA_STORE
 -> END
 ```

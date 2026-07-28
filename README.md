@@ -22,10 +22,10 @@ Static graph → compiler → command buffer → RV64 runtime → NPU model → 
 ```
 
 The first application target is fixed-shape INT8 YOLOv8n detection. Primitive
-integer arithmetic, GEMM, convolution, a tiny CNN, compiler lowering, runtime
-submission, and timing analysis are checkpoints on that route. YOLO26,
-Transformer execution, and deformable convolution are later comparison
-branches.
+integer arithmetic, GEMM, the native command device, compiler lowering, runtime
+submission, convolution, a tiny CNN, and timing analysis are checkpoints on
+that route. YOLO26, Transformer execution, and deformable convolution are later
+comparison branches.
 
 ## Current status
 

@@ -59,10 +59,10 @@ Use a small command stream:
 
 ```text
 DMA_LOAD A/B/bias
--> GEMM
--> ADD_BIAS
--> RELU
--> REQUANTIZE
+-> GEMM_I8_I8_I32
+-> ADD_BIAS_I32
+-> RELU_I32
+-> REQUANTIZE_I32_I8
 -> DMA_STORE
 -> END
 ```

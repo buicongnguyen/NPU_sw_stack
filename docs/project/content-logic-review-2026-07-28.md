@@ -10,10 +10,12 @@ navigation. This is a documentation review; no implementation gate was run.
 
 ## Verdict
 
-No documentation P0 was found. Two P1 compiler/ABI logic gaps and five P2
-reader/status inconsistencies were confirmed and corrected. The resulting book
-has one dependency order and now explains how every allowed v1 tiled transfer
-can be represented by the existing contiguous DMA commands.
+No documentation P0 was found. Two P1 compiler/ABI logic gaps and nine P2
+reader/interface inconsistencies were confirmed and corrected across two review
+passes. The resulting book has one dependency order, uses the frozen ABI names
+when showing serialized commands, distinguishes device errors from platform
+access faults, and explains how every allowed v1 tiled transfer can be
+represented by the existing contiguous DMA commands.
 
 ## Findings and resolutions
 
@@ -90,6 +92,56 @@ the generic reviewed deployment even after later deployments.
 **Resolution:** Label both records as the **initial publication baseline** and
 state that later deployments are identified by `main` history and their own
 workflow runs.
+
+### L8 — Explanatory command names drifted from ABI 1.0
+
+Several command lists and hand-built-stream examples shortened
+`GEMM_I8_I8_I32`, `ADD_BIAS_I32`, `RELU_I32`, and
+`REQUANTIZE_I32_I8`. Those labels looked like separate opcodes even though the
+ABI freezes only the longer names.
+
+**Resolution:** Use exact ABI 1.0 names in command sets, command-effect tables,
+streams, and disassembly. Generic prose may still discuss GEMM, bias, ReLU, or
+requantization as operations.
+
+### L9 — A dated decision showed a superseded course sequence
+
+The first YOLO decision post preserved the original
+`numerics -> GEMM -> Conv -> compiler` order without telling readers that the
+dependency review had replaced it.
+
+**Resolution:** Keep the historical decision intact and add a dated follow-up
+that links to the canonical reviewed sequence.
+
+### L10 — Illegal `START` was easy to confuse with a device error
+
+The architecture overview said that `START` while busy had a defined “error.”
+The normative MMIO contract instead defines `START` outside `IDLE` as a platform
+access fault that leaves the current device state unchanged and does not write
+`ERROR_CODE`.
+
+**Resolution:** State the platform/device distinction directly in the
+architecture overview.
+
+### L11 — The YOLO target retained the old gate order
+
+The target-specific review still described convolution before the compiler and
+Spike gates, contradicting the corrected dependency order.
+
+**Resolution:** Put the native command device, compiler, and runtime/Spike
+integration before convolution in the target review, matching the course and
+executable milestone plans.
+
+## Second-pass invariant checks
+
+- Every error named by the command ABI precedence table exists in the MMIO
+  stable-device-error table.
+- `DMA_READ_FAULT` and `DMA_WRITE_FAULT` remain execution-time adapter failures,
+  not prevalidation outcomes.
+- ABI record sizes and the compiler-lesson disassembly offsets agree:
+  `0x20`, `0x40`, `0x60`, `0x90`, `0xc0`, and `0xe0`.
+- The reviewed roadmap order agrees across README, learning path, chapter
+  navigation, implementation plan, and executable milestones.
 
 ## Remaining evidence boundary
 

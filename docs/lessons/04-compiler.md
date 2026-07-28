@@ -84,8 +84,8 @@ Example desired output:
 ```text
 0020 DMA_LOAD  guest=0x... spad=0x0000 bytes=256
 0040 DMA_LOAD  guest=0x... spad=0x1000 bytes=1024
-0060 GEMM      M=8 N=8 K=32 a=0x0000 b=0x1000 c=0x2000
-0090 REQUANT   src=0x2000 dst=0x3000 multiplier=... shift=...
+0060 GEMM_I8_I8_I32     M=8 N=8 K=32 a=0x0000 b=0x1000 c=0x2000
+0090 REQUANTIZE_I32_I8  src=0x2000 dst=0x3000 multiplier=... shift=...
 00c0 DMA_STORE spad=0x3000 guest=0x... bytes=64
 00e0 END
 ```

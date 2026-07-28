@@ -155,10 +155,12 @@ or compute command in the same submission.
 The validator maintains an initialization bitmap at byte granularity:
 
 - `DMA_LOAD` initializes its destination bytes.
-- `GEMM` requires initialized A and B bytes, then initializes C bytes.
-- `ADD_BIAS` requires initialized data and bias bytes and updates data.
-- `RELU` requires initialized data bytes and updates data.
-- `REQUANTIZE` requires initialized source bytes and initializes destination.
+- `GEMM_I8_I8_I32` requires initialized A and B bytes, then initializes C
+  bytes.
+- `ADD_BIAS_I32` requires initialized data and bias bytes and updates data.
+- `RELU_I32` requires initialized data bytes and updates data.
+- `REQUANTIZE_I32_I8` requires initialized source bytes and initializes its
+  destination.
 - `DMA_STORE` requires initialized source bytes.
 
 Reading an uninitialized scratchpad byte is a semantic error. This makes stale
@@ -253,10 +255,10 @@ Commands execute strictly in sequence:
 |---|---|---|---|
 | `DMA_LOAD` | Guest bytes | Scratchpad bytes | Adds to DRAM read bytes |
 | `DMA_STORE` | Scratchpad bytes | Guest bytes | Adds to DRAM write bytes |
-| `GEMM` | A and B scratchpad ranges | C scratchpad range | Adds `M*N*K` MACs |
-| `ADD_BIAS` | Data and bias | Data | No MAC count |
-| `RELU` | Data | Data | No MAC count |
-| `REQUANTIZE` | INT32 source | INT8 destination | No MAC count |
+| `GEMM_I8_I8_I32` | A and B scratchpad ranges | C scratchpad range | Adds `M*N*K` MACs |
+| `ADD_BIAS_I32` | Data and bias | Data | No MAC count |
+| `RELU_I32` | Data | Data | No MAC count |
+| `REQUANTIZE_I32_I8` | INT32 source | INT8 destination | No MAC count |
 | `BARRIER` | None | None | Completes as one command |
 | `END` | None | None | Terminates successfully |
 

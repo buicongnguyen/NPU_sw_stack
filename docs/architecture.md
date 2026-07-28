@@ -129,10 +129,10 @@ The first command set is:
 ```text
 DMA_LOAD
 DMA_STORE
-GEMM
-ADD_BIAS
-RELU
-REQUANTIZE
+GEMM_I8_I8_I32
+ADD_BIAS_I32
+RELU_I32
+REQUANTIZE_I32_I8
 BARRIER
 END
 ```
@@ -182,7 +182,8 @@ IDLE -> BUSY(validating/executing) -> COMPLETE
 
 Required rules:
 
-- `START` while busy has a defined error.
+- `START` outside `IDLE` is rejected as a platform access fault and leaves the
+  current device state unchanged; it does not set a device `ERROR_CODE`.
 - Completion and error are distinguishable.
 - Error state records a stable code and command index.
 - Reset returns all architecturally visible state to documented defaults.

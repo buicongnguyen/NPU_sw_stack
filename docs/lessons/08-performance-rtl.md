@@ -25,6 +25,26 @@ Document:
 
 Do not tune the analytical model after seeing RTL without recording the change.
 
+The correlation loop keeps functional truth separate from timing estimates:
+
+```mermaid
+flowchart TB
+  V["Shared deterministic vectors<br/>and numerical contract"]
+  V --> F["Portable functional model<br/>exact output"]
+  V --> A["Analytical timing model<br/>estimated counters"]
+  V --> R["Small RTL + Verilator<br/>exact output and measured counters"]
+  F --> C{"Output bytes match?"}
+  R --> C
+  A --> D["Compare cycles, stalls,<br/>utilization, and traffic"]
+  R --> D
+  C -- "no" --> B["Fix functional or RTL behavior"]
+  C -- "yes" --> D
+  D --> X{"Difference explained?"}
+  X -- "no" --> W["Inspect waveform/state trace"]
+  W --> D
+  X -- "yes" --> S["Record model revision<br/>then run representative sweeps"]
+```
+
 ## Step 2 — Implement the smallest RTL
 
 Order:

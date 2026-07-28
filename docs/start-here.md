@@ -124,15 +124,20 @@ compiler, and runtime foundation. Neither branch blocks the first YOLO result.
 
 Use this loop for each lesson:
 
-```text
-read the operator and architecture references
--> state one falsifiable hypothesis
--> implement one bounded change
--> run a focused correctness test
--> save raw evidence
--> interpret the result
--> update the progress article
--> run all earlier gates
+```mermaid
+flowchart TB
+  R["Read operator and architecture references"]
+  H["State one falsifiable hypothesis"]
+  I["Implement one bounded change"]
+  T["Run a focused correctness test"]
+  E["Save raw evidence"]
+  X["Interpret the result"]
+  P["Update the progress article"]
+  G{"All earlier gates pass?"}
+
+  R --> H --> I --> T --> E --> X --> P --> G
+  G -- "yes" --> R
+  G -- "no: fix the first divergence" --> I
 ```
 
 Do not write “the result looks correct.” State how it was compared, the

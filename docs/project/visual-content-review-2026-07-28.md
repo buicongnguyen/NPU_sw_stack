@@ -29,6 +29,19 @@ than flow. Short procedures remain prose.
 | Verification plan | Evidence ladder in two linked stages | Which oracle must pass before a later integration claim matters? |
 | YOLO target | Official-export versus deployment-partition boundary | Which artifact proves framework equivalence, and which one feeds the NPU/host split? |
 
+## Supplemental audit
+
+A second pass covered pages whose long prose sequences were not part of the
+first architecture/ABI review.
+
+| Page | Visual | Reader question answered |
+|---|---|---|
+| Executable milestone plan | Required spine with advanced branches | Which gates are sequential, and where can independent research begin? |
+| How to read this book | Evidence-driven learning loop | What happens after a failed earlier gate? |
+| Transformer capability track | Prefill/decode paths and tiny decoder block | Why do the two paths stress different resources, and where do mixed-precision operations sit? |
+| Deformable convolution study | Lowering path and four-neighbor sampling | How do offsets become regular GEMM work, and how is one fractional sample formed? |
+| Performance and RTL lesson | Functional/timing correlation loop | What is compared, and when may the analytical model be revised? |
+
 ## Consistency constraints
 
 - Diagram labels use the exact ABI 1.0 command names where commands are shown.
@@ -51,7 +64,8 @@ than flow. Short procedures remain prose.
 
 ## Local documentation validation
 
-- Thirteen detailed diagrams were added across eight reader-facing pages.
+- Twenty detailed diagrams are present across thirteen audited reader-facing
+  pages after the supplemental pass.
 - Every diagram rendered through the existing Material for MkDocs Mermaid
   integration.
 - The densest pages were inspected at the normal desktop viewport and at

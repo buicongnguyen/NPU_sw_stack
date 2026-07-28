@@ -15,6 +15,30 @@ deferred by user decision**. The files and commands below are the reviewed
 implementation contract, not evidence that a gate passed. Follow the
 [WSL2 setup guide](setup-wsl.md) when execution resumes.
 
+The dependency graph separates the required spine from advanced branches. A
+dotted edge means “builds on,” not “already implemented.”
+
+```mermaid
+flowchart TB
+  D0["D0<br/>Readable documentation<br/><b>published</b>"]
+  E0["E0<br/>Reproducible foundation<br/><b>scaffolded; deferred</b>"]
+  E1["E1<br/>Exact INT8 contract"]
+  E2["E2<br/>Versioned command ABI"]
+  E3["E3<br/>Native functional NPU"]
+  E4["E4<br/>Compiler + two-layer MLP"]
+  E5["E5<br/>Spike + RV64 runtime"]
+  E6["E6<br/>Tiny CNN"]
+  E7["E7<br/>YOLOv8n"]
+
+  D0 --> E0 --> E1 --> E2 --> E3 --> E4 --> E5 --> E6 --> E7
+
+  E5 -.-> RTL["RTL correlation"]
+  E5 -.-> TR["Tiny Transformer"]
+  E5 -.-> DC["Deformable convolution"]
+  E5 -.-> LQ["Linux/QEMU driver"]
+  E7 -.-> Y26["YOLO26n comparison"]
+```
+
 ## Last audited execution environment
 
 Audited on 2026-07-27:

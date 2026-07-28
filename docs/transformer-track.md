@@ -77,6 +77,22 @@ bytes read per generated token
 KV-cache bytes
 ```
 
+The two paths reuse the same block but stress different resources:
+
+```mermaid
+flowchart TB
+  P["Prompt: S tokens"] --> PM["Matrix-shaped projections<br/>and attention"]
+  PM --> PO["Prefill output<br/>time to first token"]
+  PM --> PW["Write K/V for tokens 0..S-1"]
+
+  D["One new token"] --> DM["M=1 projections<br/>often GEMV-like"]
+  DM --> DA["Append one K/V entry"]
+  PW --> C["Growing KV cache"]
+  DA --> C
+  C --> DR["Read all valid K/V"]
+  DR --> DO["Decode output<br/>one token"]
+```
+
 ## Proposed tiny block
 
 Initial educational parameters:
@@ -95,6 +111,27 @@ Initial educational parameters:
 
 After standard multi-head attention works, reduce KV heads to study grouped
 query attention.
+
+The first complete block keeps nonlinear and reduction operations explicit so
+that each boundary can be compared independently:
+
+```mermaid
+flowchart TB
+  X["Input X"] --> N1["RMSNorm"]
+  N1 --> QKV["Q, K, V projections"]
+  QKV --> R["RoPE on Q and K"]
+  R --> A["Scaled causal attention<br/>Softmax in FP32"]
+  A --> OP["Output projection"]
+  OP --> RA["Residual add with X"]
+  X -. "residual" .-> RA
+  RA --> N2["RMSNorm"]
+  N2 --> GU["Gate and up projections"]
+  GU --> SW["SiLU(gate) × up"]
+  SW --> DP["Down projection"]
+  DP --> RB["Residual add"]
+  RA -. "residual" .-> RB
+  RB --> Y["Block output"]
+```
 
 ## Operator mapping
 

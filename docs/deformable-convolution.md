@@ -14,14 +14,14 @@ required by the selected base YOLOv8n or YOLO26n models.
 The first supported behavior will be a correct FP32 host fallback. The first
 accelerator experiment will split the operator into:
 
-```text
-offset-driven gather + bilinear interpolation
-                    |
-                    v
-          sampled column buffer
-                    |
-                    v
-              existing GEMM
+```mermaid
+flowchart TB
+  I["Input feature map + runtime offsets"]
+  I --> G["Bounds-checked irregular gather"]
+  G --> B["Four-neighbor bilinear interpolation<br/>+ optional modulation mask"]
+  B --> C["Sampled column buffer"]
+  C --> GEMM["Existing GEMM engine<br/>+ convolution weights"]
+  GEMM --> Y["Output feature map"]
 ```
 
 Only after measuring this design should the project propose a streaming gather
@@ -55,6 +55,26 @@ The ONNX DeformConv operator accepts:
 
 Current ONNX DeformConv type constraints are floating-point types rather than
 an INT8 quantized operator contract.
+
+One fractional sample is a weighted reduction of four neighboring pixels:
+
+```mermaid
+flowchart TB
+  P["Requested coordinate<br/>(y, x)"]
+  P --> F["y0=floor(y), x0=floor(x)<br/>dy=y-y0, dx=x-x0"]
+  F --> N00["I[y0, x0]<br/>(1-dy)(1-dx)"]
+  F --> N01["I[y0, x0+1]<br/>(1-dy)dx"]
+  F --> N10["I[y0+1, x0]<br/>dy(1-dx)"]
+  F --> N11["I[y0+1, x0+1]<br/>dy·dx"]
+  N00 --> S["Weighted sum"]
+  N01 --> S
+  N10 --> S
+  N11 --> S
+  S --> Z["Apply optional mask<br/>then convolution weight"]
+```
+
+Each out-of-range neighbor contributes the specified padding value before the
+weighted sum.
 
 ## Why it is difficult for a conventional NPU
 

@@ -32,13 +32,13 @@ theme:
       primary: white
       accent: indigo
       toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
+        icon: material/weather-night
+        name: Switch to eye-comfort dark mode
     - scheme: slate
       primary: black
       accent: teal
       toggle:
-        icon: material/brightness-4
+        icon: material/weather-sunny
         name: Switch to light mode
   font:
     text: Inter

@@ -39,6 +39,17 @@ operators may add later commands without changing valid version-one buffers.
 
 The buffer begins with 32 bytes:
 
+```mermaid
+flowchart LR
+  H["32-byte buffer header"] --> C0["Command 0<br/>16, 32, or 48 bytes"]
+  C0 --> CN["Commands 1 through N-1<br/>sequence increases by one"]
+  CN --> E["Final END record<br/>16 bytes"]
+```
+
+The header describes the complete byte range and record count. Each record
+contains its own 16-byte common header, and the counted walk must land exactly
+at the end of `total_bytes`.
+
 | Offset | Size | Field | Version-one rule |
 |---:|---:|---|---|
 | 0 | 4 | `magic` | ASCII `NPUC` |
@@ -298,6 +309,21 @@ payloads are not snapshotted and follow the
 Only after both passes succeed may execution begin. A later asynchronous model
 may still report runtime DMA faults, but structurally invalid buffers cannot
 partially execute.
+
+```mermaid
+flowchart TB
+  S["Accepted START<br/>snapshot exactly CMD_BYTES"] --> P1["Pass 1: structural validation"]
+  P1 -- "Fail" --> VE["ERROR<br/>no command effects"]
+  P1 -- "Pass" --> P2["Pass 2: semantic validation"]
+  P2 -- "Fail" --> VE
+  P2 -- "Pass" --> EX["Execute records in sequence"]
+  EX -- "END completes" --> OK["COMPLETE"]
+  EX -- "Runtime fault" --> EE["ERROR<br/>earlier completed effects remain"]
+```
+
+The two error exits differ intentionally: validation errors are
+submission-atomic, while a runtime DMA fault can occur after earlier commands
+have completed.
 
 Within each pass, checks occur in sequence order and in the bullet order given
 for that command. The first failing rule determines the stable error code and

@@ -194,6 +194,16 @@ coalesced scratchpad range:
 - A ReLU input must have no other consumer and must not also be a graph output;
   the ReLU output begins in the same bytes after the command.
 
+```mermaid
+flowchart LR
+  G["GEMM_I8_I8_I32<br/>private accumulator"] -->|"same scratchpad bytes"| B["ADD_BIAS_I32<br/>declared Linear output"]
+  B -->|"same scratchpad bytes"| R["RELU_I32<br/>ReLU output"]
+  R -->|"separate destination bytes"| Q["REQUANTIZE_I32_I8<br/>INT8 output"]
+```
+
+The arrows describe logical lifetime transitions. GEMM, bias, and ReLU reuse
+one physical INT32 range; requantization cannot alias that range.
+
 The allocation map records these alias predecessors rather than pretending the
 values occupy independent storage. A graph that cannot satisfy mandatory
 coalescing is rejected with `UNSUPPORTED_ALIASING`; version one does not insert
@@ -240,6 +250,30 @@ row to its final guest row/column address. It never stores the compact
 `tile_m × tile_n` scratchpad block as though those rows were contiguous in the
 full logical output. The same rule applies when a materialized intermediate is
 written to guest memory.
+
+```mermaid
+flowchart LR
+  subgraph WEIGHT["Immutable weight preparation"]
+    direction TB
+    LB["Logical row-major B<br/>K by N"] --> SLICE["Select N-column tile"]
+    SLICE --> PACK["Pack contiguous K by tile_n segment"]
+    PACK --> MEM["memory.bin tile segment"]
+    MEM --> LOAD["DMA_LOAD packed tile"]
+  end
+
+  subgraph EXECUTE["Tile execution and output placement"]
+    direction TB
+    GEMM["GEMM_I8_I8_I32<br/>compact scratchpad C tile"]
+    GEMM --> POST["Bias, ReLU, and requantization"]
+    POST --> ROW["One DMA_STORE per logical output row slice"]
+    ROW --> OUT["Final row-major output<br/>M by N"]
+  end
+
+  LOAD --> GEMM
+```
+
+Packing makes each B tile load contiguous. Row-wise stores preserve the logical
+output stride when a compact scratchpad tile covers only part of N.
 
 The compiler estimates the exact record count and serialized command bytes for
 each candidate, including row-wise stores. A candidate that exceeds ABI 1.0

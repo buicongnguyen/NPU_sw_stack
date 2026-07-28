@@ -90,6 +90,18 @@ Exactly one primary state bit is set:
 | 2 | `COMPLETE` |
 | 3 | `ERROR` |
 
+```mermaid
+stateDiagram-v2
+  [*] --> IDLE
+  IDLE --> BUSY: accepted START
+  BUSY --> COMPLETE: END completes
+  BUSY --> ERROR: validation or execution fault
+  BUSY --> IDLE: RESET at command boundary
+  COMPLETE --> IDLE: RESET
+  ERROR --> IDLE: RESET
+  IDLE --> IDLE: RESET
+```
+
 `COMPLETE` and `ERROR` remain visible until `RESET`. Version one requires an
 explicit reset before another submission.
 

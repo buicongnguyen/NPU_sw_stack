@@ -17,30 +17,29 @@ does not override the numerical, command, memory/execution, or MMIO contracts.
 
 ## System overview
 
-```text
-                 build time
-  model/graph ------------------------+
-      |                               |
-      v                               |
-  importer -> typed IR -> passes      |
-      |                               |
-      v                               |
-  tiling + memory planning            |
-      |                               |
-      v                               |
-  command buffer + tensor image       |
-                                      |
-                 run time             |
-                                      v
-  RV64 application -> runtime -> MMIO NPU device
-                         |              |
-                         |              +-> command decoder
-                         |              +-> DMA model
-                         |              +-> scratchpad
-                         |              +-> compute engines
-                         |              +-> counters/errors
-                         v
-                 guest memory buffers
+```mermaid
+flowchart TB
+  subgraph BUILD["Build time"]
+    G["Model or graph"] --> I["Importer and typed IR"]
+    I --> P["Validation and lowering passes"]
+    P --> M["Tiling and memory planning"]
+    M --> A["Command buffer and tensor image"]
+  end
+
+  subgraph RUN["Run time"]
+    APP["RV64 application"] --> RT["Runtime"]
+    RT --> MMIO["MMIO adapter"]
+    MMIO --> NPU["Shared NPU model"]
+    NPU --> DEC["Command decoder"]
+    NPU --> DMA["DMA model"]
+    NPU --> SP["Scratchpad"]
+    NPU --> CE["Compute engines"]
+    NPU --> OBS["Counters and errors"]
+    NPU <--> GM["Guest memory buffers"]
+    NR["Native runner"] --> NPU
+  end
+
+  A --> GM
 ```
 
 The native runner bypasses RV64 and Spike but invokes the same command decoder

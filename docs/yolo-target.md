@@ -138,6 +138,24 @@ The partition tool must identify boundaries by validated graph values and
 shapes, not brittle node numbers copied from one export. Both artifacts need
 version, hash, opset, and operator inventories.
 
+```mermaid
+flowchart TB
+  MODEL["Pinned PyTorch YOLOv8n"] --> OFFICIAL["Official fixed-shape ONNX export"]
+  OFFICIAL --> BASE["PyTorch versus ONNX Runtime baseline"]
+
+  MODEL --> CUT["Reviewed partition or export adapter"]
+  CUT --> NPU["Supported quantized NPU subgraphs"]
+  CUT --> FALLBACK["Documented host fallback nodes"]
+  NPU <-->|"Validated boundary tensors"| FALLBACK
+  NPU --> RAW["Stable raw P3, P4, and P5 head tensors"]
+  RAW --> HOST["RV64 DFL decode, filtering, and NMS"]
+  HOST --> DET["Detections and measurements"]
+```
+
+The official export proves framework equivalence. The separately hashed
+partitioned graph defines the accelerator boundary and must not be mistaken for
+the official export.
+
 ## Accuracy and correctness rules
 
 There are two separate comparisons:

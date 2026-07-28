@@ -21,6 +21,14 @@ host-visible registers.
 | Scratchpad | 32-bit byte offset | NPU model/compiler | Explicit DMA and compute operands |
 | Host virtual memory | Implementation-defined | Native process only | Backing storage behind checked callbacks |
 
+```mermaid
+flowchart LR
+  CMD["Serialized command<br/>guest physical address"] --> AD["Checked platform adapter"]
+  AD --> GM["Guest-memory backing bytes"]
+  GM <-->|"DMA_LOAD and DMA_STORE"| SP["NPU scratchpad<br/>32-bit byte offsets"]
+  HP["Host virtual pointer"] -. "Never serialized" .-> AD
+```
+
 Serialized commands never contain a host pointer. Converting a guest physical
 address to backing storage is exclusively an adapter operation.
 
@@ -279,6 +287,23 @@ For DMA, the adapter must stage a complete transfer before committing its
 destination. For compute commands, destination elements are calculated into a
 temporary buffer or otherwise committed only after all required reads and
 checks succeed.
+
+```mermaid
+flowchart TB
+  S["Submission accepted"] --> V["Whole-buffer validation"]
+  V -- "Fail" --> VF["ERROR<br/>no command, memory, or counter effects"]
+  V -- "Pass" --> X["Execute commands in sequence"]
+  X -- "Another command completes" --> X
+  X -- "END completes" --> DONE["COMPLETE"]
+  X -- "Current command fails" --> EF["ERROR<br/>keep earlier completed effects<br/>commit none from failing command"]
+  VF --> RESET["Explicit RESET"]
+  EF --> RESET
+  DONE --> RESET
+  RESET --> IDLE["IDLE with cleared architectural state"]
+```
+
+This distinction is why software discards every output from a failed
+submission even though the device still guarantees command-level atomicity.
 
 ## Overlap and alias rules
 

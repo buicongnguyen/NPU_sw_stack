@@ -47,7 +47,8 @@ Start with:
 - [the post-deployment logic review](docs/project/post-deployment-logic-review-2026-07-28.md);
 - [the post-deployment static code review](docs/project/post-deployment-code-review-2026-07-28.md);
 - [the static remediation review](docs/project/static-remediation-review-2026-07-28.md);
-- [the book content and logic review](docs/project/content-logic-review-2026-07-28.md).
+- [the book content and logic review](docs/project/content-logic-review-2026-07-28.md);
+- [the visual content review](docs/project/visual-content-review-2026-07-28.md).
 
 ## Book structure
 

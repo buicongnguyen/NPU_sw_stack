@@ -9,21 +9,30 @@ permalink: /learning-path/
 The goal is not to choose between simple operations and YOLO. Simple operations
 are the proof steps needed to understand and trust a YOLO execution.
 
-The path is:
+The prerequisite spine is:
 
-```text
-integer arithmetic
-  -> GEMM
-  -> systolic-array model
-  -> command ABI, memory, and native device
-  -> graph compiler
-  -> runtime and Spike MMIO integration
-  -> convolution lowering
-  -> tiny CNN
-  -> YOLOv8n backbone and neck
-  -> YOLOv8n detection with host postprocessing
-  -> RTL correlation
-  -> optional YOLO26n comparison
+```mermaid
+flowchart TB
+  B["Baseline and reproducibility"] --> I["Exact integer arithmetic"]
+  I --> G["GEMM and systolic-array model"]
+  G --> C["Command ABI, memory, and native device"]
+  C --> P["Graph compiler"]
+  P --> R["Runtime and Spike MMIO integration"]
+  R --> V["Convolution lowering"]
+  V --> T["Tiny CNN"]
+```
+
+After the shared GEMM/compiler/runtime foundation, the paths branch:
+
+```mermaid
+flowchart TB
+  F["Shared GEMM, compiler, and runtime foundation"] --> T["Tiny CNN"]
+  T --> YB["YOLOv8n backbone and neck"]
+  YB --> YD["YOLOv8n detection with host postprocessing"]
+  YD --> RTL["RTL correlation"]
+  RTL --> Y26["Optional YOLO26n comparison"]
+  F -.-> TR["Transformer branch"]
+  F -.-> DC["Deformable-convolution branch"]
 ```
 
 ## How to use the course

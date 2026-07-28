@@ -13,16 +13,22 @@ verified one. No table entry below is a claim that a test has already run.
 
 ## Verification ladder
 
-```text
-hand-worked scalar cases
--> Python unit and property tests
--> shared Python/C++ vectors
--> command decoder and malformed streams
--> native end-to-end graph
--> RV64 runtime and Spike adapter
--> timing invariance and sensitivity
--> selected RTL differential tests
--> application-level accuracy
+```mermaid
+flowchart TB
+  H["Hand-worked scalar cases"] --> PY["Python unit and property tests"]
+  PY --> DIFF["Shared Python and C++ vectors"]
+  DIFF --> ABI["Command decoder and malformed streams"]
+  ABI --> NATIVE["Native end-to-end graph"]
+```
+
+The native graph is the handoff to integration and higher-level evidence:
+
+```mermaid
+flowchart TB
+  NATIVE["Native end-to-end graph"] --> SPIKE["RV64 runtime and Spike adapter"]
+  SPIKE --> TIMING["Timing invariance and sensitivity"]
+  TIMING --> RTL["Selected RTL differential tests"]
+  RTL --> APP["Application-level accuracy"]
 ```
 
 A failure is debugged at the first divergent boundary. Later agreement cannot

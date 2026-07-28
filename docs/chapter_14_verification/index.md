@@ -33,7 +33,8 @@ flowchart LR
    [reorganization logic review](../project/reorganization-logic-review.md),
    [dated static code review](../project/static-code-review-2026-07-28.md),
    [static remediation review](../project/static-remediation-review-2026-07-28.md),
-   and [book content/logic review](../project/content-logic-review-2026-07-28.md).
+   [book content/logic review](../project/content-logic-review-2026-07-28.md),
+   and [visual content review](../project/visual-content-review-2026-07-28.md).
 
 !!! note "Current evidence boundary"
     Documentation navigation and build integrity may be verified on the host.

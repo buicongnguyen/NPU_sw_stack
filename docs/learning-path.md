@@ -15,10 +15,10 @@ The path is:
 integer arithmetic
   -> GEMM
   -> systolic-array model
-  -> convolution
+  -> command ABI, memory, and native device
   -> graph compiler
-  -> command ABI and runtime
-  -> Spike MMIO integration
+  -> runtime and Spike MMIO integration
+  -> convolution lowering
   -> tiny CNN
   -> YOLOv8n backbone and neck
   -> YOLOv8n detection with host postprocessing
@@ -50,10 +50,11 @@ For each lesson:
 | [0. Baseline and reproducibility](lessons/00-baseline.md) | What exactly are we trying to reproduce? | Pinned host baselines and graph inventory |
 | [1. Integer inference](lessons/01-integer-inference.md) | What does INT8 inference mean bit-for-bit? | NumPy and C++ numerical contract |
 | [2. GEMM and the NPU core](lessons/02-gemm-and-npu.md) | How does data reuse create acceleration? | Tiled GEMM and systolic timing model |
-| [3. Convolution and graph lowering](lessons/03-convolution.md) | How do CNN layers become accelerator work? | Conv2D, fusion, and tiling |
+| [3. Commands, memory, and native device](lessons/03-commands-memory.md) | Can exact commands execute safely without a compiler or Spike? | Golden ABI buffers and native command model |
 | [4. Compiler and command stream](lessons/04-compiler.md) | How is a graph converted into device commands? | Typed IR and deterministic command buffer |
 | [5. Runtime and Spike](lessons/05-spike-runtime.md) | How does RISC-V software control the NPU? | MMIO plug-in and bare-metal driver |
-| [6. Tiny CNN integration](lessons/06-tiny-cnn.md) | Does the complete stack work across layers? | Quantized tiny CNN under Spike |
+| [6A. Convolution and graph lowering](lessons/03-convolution.md) | How do CNN layers become accelerator work? | Conv2D reference, fusion, and lowering |
+| [6B. Tiny CNN integration](lessons/06-tiny-cnn.md) | Does the complete stack work across layers? | Quantized tiny CNN under Spike |
 | [7. YOLOv8n deployment](lessons/07-yolov8n.md) | Can the stack run a real detector? | Fixed-shape hybrid YOLOv8n |
 | [8. Performance and RTL](lessons/08-performance-rtl.md) | Which performance claims survive RTL? | Correlated analytical and RTL results |
 | [9. YOLO26n comparison](lessons/09-yolo26n.md) | What changes for a newer architecture? | Operator and performance comparison |
@@ -74,7 +75,7 @@ Complete Lessons 0–2. You should be able to explain:
 
 ### Level B — Full-stack simulator
 
-Complete Lessons 3–6. You should be able to trace:
+Complete Lessons 3–6B. You should be able to trace:
 
 ```text
 graph node

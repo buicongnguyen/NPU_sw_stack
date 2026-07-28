@@ -1,15 +1,19 @@
 ---
 layout: page
-title: "Lesson 3: Convolution and Graph Lowering"
+title: "Lesson 6A: Convolution and Graph Lowering"
 permalink: /lessons/03-convolution/
 ---
 
-# Lesson 3: convolution and graph lowering
+# Lesson 6A: convolution and graph lowering
 
 ## Outcome
 
 Execute quantized Conv2D and the core building blocks needed by a small CNN and
 YOLOv8n.
+
+This lesson begins only after the command/memory, compiler, and runtime lessons
+are complete. The direct scalar reference is the oracle; NPU lowering uses the
+already-validated compiler and native device path.
 
 ## Step 1 — Specify Conv2D
 

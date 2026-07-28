@@ -34,6 +34,7 @@ contract, and discrepancies must be resolved explicitly.
 3. Review the boundary cases in [this chapter’s questions](review.md).
 
 !!! note "Static review finding"
-    Extreme quantization boundaries need execution with sanitizers and
-    cross-language vectors after WSL setup. The finding is tracked in the
-    [static code review](../project/static-code-review-2026-07-28.md).
+    Source-level corrections and matching vectors now cover the reviewed
+    extreme-quantization cases. Execution with sanitizers remains pending
+    until WSL setup. See the
+    [remediation review](../project/static-remediation-review-2026-07-28.md).

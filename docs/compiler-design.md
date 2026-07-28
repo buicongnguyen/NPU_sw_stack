@@ -118,6 +118,7 @@ binary float. The compiler parses it as an exact integer coefficient and power
 of ten so multiplier selection is deterministic.
 
 `Linear` has three inputs `(x, weight, bias)`, one output, and no attributes.
+In version one, `weight` and `bias` must resolve to immutable initializers.
 `Relu` and `Requantize` each have one input and one output. `Requantize`
 requires the output tensor's quantization metadata. Unknown operators,
 attributes, or arities are errors.
@@ -175,19 +176,29 @@ checked multiplication when calculating element counts and byte sizes.
 Convert high-level `Linear` into:
 
 ```text
-GEMM_I8_I8_I32
--> ADD_BIAS_I32
+GEMM_I8_I8_I32 -> private unbiased accumulator
+ADD_BIAS_I32    -> declared Linear output
 ```
 
 Keep ReLU and Requantize explicit in version one. Later fusion may change
 scheduling but not observable numerical behavior.
 
-The IR is SSA-like, but ABI 1.0 ReLU is in place. A ReLU input must have no
-other consumer and must not also be a graph output. The allocator assigns the
-ReLU output the same scratchpad range, ends the input lifetime immediately
-before the command, and begins the output lifetime immediately after it. A
-graph that cannot satisfy this mandatory coalescing rule is rejected with
-`UNSUPPORTED_ALIASING`; v1 does not insert a hidden copy.
+The IR is SSA-like, while ABI 1.0 `ADD_BIAS_I32` and `RELU_I32` operate in
+place. Lowering therefore creates explicit logical values around one
+coalesced scratchpad range:
+
+- GEMM produces a compiler-private unbiased accumulator consumed only by the
+  following bias command.
+- `ADD_BIAS_I32` ends that temporary lifetime and begins the declared
+  `Linear` output lifetime in the same bytes.
+- A ReLU input must have no other consumer and must not also be a graph output;
+  the ReLU output begins in the same bytes after the command.
+
+The allocation map records these alias predecessors rather than pretending the
+values occupy independent storage. A graph that cannot satisfy mandatory
+coalescing is rejected with `UNSUPPORTED_ALIASING`; version one does not insert
+a hidden copy. `REQUANTIZE_I32_I8` remains out of place because ABI 1.0
+prohibits source/destination overlap.
 
 For future Conv2D, lowering records padding/dilation/layout transformations
 explicitly before producing matrix/tile operations.
@@ -214,6 +225,27 @@ Prefer multiples of eight for non-edge tiles. The loop order is M outer, N
 inner. Edge tiles use their exact smaller dimensions. If no pair fits or K
 cannot be represented by the ABI field, compilation fails with
 `UNSUPPORTED_TILING`; it never silently changes arithmetic.
+
+An M tile of row-major A is contiguous because it retains the complete K
+dimension. An N tile of row-major B is not contiguous in the original
+initializer. Because version-one Linear weights are immutable initializers,
+the compiler packs each `K × tile_n` weight tile into a deterministic
+tile-row-major constant segment in `memory.bin` and emits `ldb_bytes =
+tile_n`. The manifest records the logical tensor, tile origin, tile shape, and
+storage layout for every packed segment.
+
+A tiled output must still appear as one logical row-major tensor. When
+`tile_n < N`, the scheduler emits one contiguous `DMA_STORE` per output-tile
+row to its final guest row/column address. It never stores the compact
+`tile_m × tile_n` scratchpad block as though those rows were contiguous in the
+full logical output. The same rule applies when a materialized intermediate is
+written to guest memory.
+
+The compiler estimates the exact record count and serialized command bytes for
+each candidate, including row-wise stores. A candidate that exceeds ABI 1.0
+`MAX_CMD_BYTES`, the representable command count, or the 16 MiB submission
+image limit after tile packing is illegal even when its scratchpad footprint
+fits.
 
 ## Pass 3 — Lifetime analysis
 
@@ -266,8 +298,9 @@ Version one is conservative and serial:
 - A tensor must be initialized before its first read.
 - For each M tile, load A once when its scratchpad lifetime can span all N
   tiles; otherwise reload it deterministically.
-- For each N tile, load B and bias, run GEMM and explicit post-operations, then
-  store the final INT8 tile when it cannot remain live for its consumer.
+- For each N tile, load its packed B constant and contiguous bias slice, run
+  GEMM and explicit post-operations, then store each logical output row
+  separately when the N tile cannot remain live for its consumer.
 - Materialize a graph boundary in guest memory whenever keeping it live would
   exceed scratchpad or cross a separately compiled partition.
 - Emit no automatic `BARRIER` in ABI 1.0 because commands are already serial.
@@ -393,6 +426,6 @@ model.
 - [ONNX shape inference](https://onnx.ai/onnx/repo-docs/ShapeInference.html)
 - [Command buffer ABI](command-abi.md)
 
-## Continue reading
+## Continue through the specification
 
-Next: [Verification plan](verification-plan.md)
+Next specification: [Verification plan](verification-plan.md)

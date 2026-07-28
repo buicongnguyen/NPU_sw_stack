@@ -181,6 +181,6 @@ A milestone becomes **verified** only when:
 
 Until then its status remains documented, reviewed, scaffolded, or executed.
 
-## Continue reading
+## Continue through the specification
 
-Next: [Executable milestone plan](execution-plan.md)
+Next specification: [Executable milestone plan](execution-plan.md)

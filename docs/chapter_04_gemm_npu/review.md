@@ -17,5 +17,6 @@ questions without changing the mathematical result.
 ## Deferred lab
 
 Compare reference and tiled GEMM on square, rectangular, partial-tile, and
-zero-dimension inputs. The current zero-dimension contract discrepancy is
-already recorded for resolution during executable review.
+zero-dimension inputs. Both source helpers now reject zero M, N, or K and have
+matching deferred test cases; execute those cases before treating the
+correction as verified.

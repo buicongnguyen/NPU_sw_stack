@@ -125,10 +125,22 @@ The manifest records at least:
 ```
 
 The hashes and workload-specific sizes above are illustrative. Allowed segment
-roles are `input`, `constant`, `output`, and `workspace`. Segments do
-not overlap. Inputs may be replaced by the workload before submission;
-constants are immutable for the submission; outputs and workspace are
-zero-filled in the initial image. Command and tensor ranges never overlap.
+roles are `input`, `constant`, `output`, and `workspace`. Segments do not
+overlap. Inputs may be replaced by the workload before submission; constants
+are immutable for the submission; outputs and workspace are zero-filled in the
+initial image. Command and tensor ranges never overlap.
+
+A logical tensor may have multiple compiler-packed constant segments when
+tiling requires a storage view that is not contiguous in the original layout.
+Each such manifest entry records `logical_tensor`, `tile_origin`,
+`tile_shape`, and `storage_layout`; the original initializer hash remains the
+source identity. Version-one Linear uses this only for immutable B/weight
+tiles. Dynamic inputs are not silently repacked inside the device.
+
+Tiled outputs retain their declared logical row-major representation. If an N
+tile covers only part of each logical row, the command stream stores each row
+slice separately to its final guest address rather than treating the compact
+scratchpad tile as a contiguous full-tensor range.
 
 ## Scratchpad contract
 
@@ -323,6 +335,6 @@ and compute overlap, bank conflicts, stalls, and array utilization from the
 same trace, but timing parameters cannot alter bytes, status, error selection,
 or command completion order.
 
-## Continue reading
+## Continue through the specification
 
-Next: [MMIO and runtime contract](mmio-runtime.md)
+Next specification: [MMIO and runtime contract](mmio-runtime.md)

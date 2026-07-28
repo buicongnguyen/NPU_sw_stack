@@ -61,9 +61,9 @@ Each pass needs before/after fixtures and negative tests.
 Constant folding, Conv/BatchNorm folding, and numerical fusion are later
 lessons. They are not part of the first explicit MLP compiler.
 
-## Step 4 — Define the binary ABI
+## Step 4 — Emit the frozen binary ABI
 
-Specify:
+Consume the ABI already implemented in Lesson 3:
 
 - Magic and ABI version
 - Total byte length
@@ -73,8 +73,9 @@ Specify:
 - Reserved fields written as zero
 - Error behavior
 
-Do not serialize native C++ structs by copying their memory. Use explicit
-encoding helpers and golden byte fixtures.
+The compiler must not reinterpret these fields or duplicate encoder logic with
+different rules. Use the shared explicit encoding helpers and golden byte
+fixtures; never serialize native C++ structs by copying their memory.
 
 ## Step 5 — Add a disassembler
 

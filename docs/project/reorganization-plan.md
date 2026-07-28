@@ -233,7 +233,7 @@ in successful workflow run
 After the user reports that WSL and toolchains are ready:
 
 1. Re-audit the actual environment.
-2. Resolve documented numerical/code-review findings.
+2. Execute the statically corrected numerical and tooling findings.
 3. Run E0 and E1 gates.
 4. Save immutable evidence.
 5. Change only proven statuses from scaffolded to verified.

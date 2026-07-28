@@ -31,7 +31,9 @@ access or partial execution.
 
 1. Read the [command-buffer ABI](../command-abi.md).
 2. Read the [memory and execution model](../memory-execution-model.md).
-3. Check your understanding in the [chapter review](review.md).
+3. Build the hand-authored native path in the
+   [commands and memory lesson](../lessons/03-commands-memory.md).
+4. Check your understanding in the [chapter review](review.md).
 
 !!! note "Normative boundary"
     Examples explain the format, but the versioned field definitions and

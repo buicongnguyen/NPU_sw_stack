@@ -60,12 +60,17 @@ std::int8_t requantize_s32_to_s8(
     std::int8_t zero_point,
     std::int8_t minimum,
     std::int8_t maximum) {
+  if (multiplier <= 0) {
+    throw std::invalid_argument("multiplier must be in [1, INT32_MAX]");
+  }
+  if (zero_point != 0) {
+    throw std::invalid_argument("ABI 1.0 zero point must be zero");
+  }
   if (minimum > maximum) {
     throw std::invalid_argument("minimum must not exceed maximum");
   }
   const auto product = static_cast<std::int64_t>(value) * multiplier;
   auto result = round_divide_by_power_of_two(product, shift);
-  result += zero_point;
   if (result < minimum) {
     result = minimum;
   }
@@ -83,10 +88,21 @@ std::int8_t quantize_s8(double real_value, double scale, std::int8_t zero_point)
     throw std::invalid_argument("scale must be positive and finite");
   }
   const double scaled = real_value / scale;
-  if (scaled < static_cast<double>(std::numeric_limits<std::int64_t>::min()) ||
-      scaled > static_cast<double>(std::numeric_limits<std::int64_t>::max())) {
-    throw std::overflow_error("scaled value does not fit int64");
+  if (!std::isfinite(scaled)) {
+    return scaled > 0.0 ? kInt8Max : kInt8Min;
   }
+
+  const double upper =
+      static_cast<double>(kInt8Max) - static_cast<double>(zero_point);
+  const double lower =
+      static_cast<double>(kInt8Min) - static_cast<double>(zero_point);
+  if (scaled >= upper + 0.5) {
+    return kInt8Max;
+  }
+  if (scaled <= lower - 0.5) {
+    return kInt8Min;
+  }
+
   auto result = round_ties_to_even(scaled) + zero_point;
   if (result < kInt8Min) {
     result = kInt8Min;
@@ -101,7 +117,12 @@ double dequantize_s8(std::int8_t value, double scale, std::int8_t zero_point) {
   if (!std::isfinite(scale) || scale <= 0.0) {
     throw std::invalid_argument("scale must be positive and finite");
   }
-  return scale * (static_cast<int>(value) - static_cast<int>(zero_point));
+  const double result =
+      scale * (static_cast<int>(value) - static_cast<int>(zero_point));
+  if (!std::isfinite(result)) {
+    throw std::invalid_argument("dequantized result must be finite");
+  }
+  return result;
 }
 
 std::vector<std::int32_t> gemm_s8s8_s32(
@@ -111,6 +132,9 @@ std::vector<std::int32_t> gemm_s8s8_s32(
     std::size_t n,
     std::size_t k,
     const std::vector<std::int32_t>& bias) {
+  if (m == 0U || n == 0U || k == 0U) {
+    throw std::invalid_argument("GEMM dimensions M, N, and K must be nonzero");
+  }
   if (m != 0U && k > std::numeric_limits<std::size_t>::max() / m) {
     throw std::overflow_error("A shape overflows size_t");
   }

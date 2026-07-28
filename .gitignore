@@ -1,0 +1,39 @@
+# Build outputs
+/build/
+/out/
+/_site/
+/docs/_site/
+/site/
+/.venv-docs/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Native and RISC-V binaries
+*.a
+*.dll
+*.dylib
+*.elf
+*.exe
+*.o
+*.so
+
+# Simulation artifacts
+*.fst
+*.vcd
+*.wave
+
+# Editors and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

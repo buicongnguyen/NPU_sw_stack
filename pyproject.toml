@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "npu-sw-stack"
+version = "0.1.0.dev0"
+description = "Learning-oriented RISC-V NPU simulator and software stack"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy==2.2.6",
+]
+
+[tool.setuptools]
+package-dir = {"" = "python"}
+
+[tool.setuptools.packages.find]
+where = ["python"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+addopts = "-ra"

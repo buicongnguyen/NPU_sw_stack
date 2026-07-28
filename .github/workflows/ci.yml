@@ -1,0 +1,32 @@
+name: Implementation checks (manual and unverified)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@v7.0.0
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install Python dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-dev.txt
+      - name: Configure C++
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DNPU_ENABLE_SANITIZERS=ON
+      - name: Build C++
+        run: cmake --build build --parallel
+      - name: Run Python tests
+        run: python -m pytest tests/python -q
+      - name: Run C++ tests
+        run: ctest --test-dir build --output-on-failure
+      - name: Check documentation
+        shell: pwsh
+        run: ./scripts/check_docs.ps1

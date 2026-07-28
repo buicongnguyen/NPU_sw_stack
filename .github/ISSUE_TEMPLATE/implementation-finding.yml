@@ -1,0 +1,40 @@
+name: Implementation finding
+description: Record a reproducible bug or a static-review concern
+title: "finding: "
+labels:
+  - needs-triage
+body:
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: Evidence level
+      options:
+        - Static inspection only
+        - Reproduced locally
+        - Reproduced in CI
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Revision
+      description: Commit identifier, or state that the tree is uncommitted.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Finding
+      description: Describe expected and actual behavior or the static risk.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Include environment, input, command, and output when executed.
+  - type: textarea
+    id: contract
+    attributes:
+      label: Owning contract
+      description: Link the normative document and relevant rule.

@@ -1,0 +1,32 @@
+name: Documentation problem
+description: Report unclear, incorrect, or broken book content
+title: "docs: "
+labels:
+  - documentation
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: Link or repository path to the affected page.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Explain what is incorrect, unclear, missing, or broken.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Suggested correction
+      description: Describe the result you expected, if known.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety check
+      options:
+        - label: This report contains no credentials, private data, or restricted assets.
+          required: true

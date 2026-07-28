@@ -1,0 +1,181 @@
+site_name: From Graph to NPU
+site_description: A chapter-based guide to building a RISC-V-hosted NPU software and simulation stack
+site_author: buicongnguyen
+site_url: https://buicongnguyen.github.io/NPU_sw_stack/
+repo_name: buicongnguyen/NPU_sw_stack
+repo_url: https://github.com/buicongnguyen/NPU_sw_stack
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: en
+  logo: assets/images/npu-stack-logo.svg
+  favicon: assets/images/npu-stack-logo.svg
+  features:
+    - content.action.edit
+    - content.code.copy
+    - navigation.footer
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/buicongnguyen/NPU_sw_stack
+      name: NPU Software Stack on GitHub
+  status:
+    planned: Planned
+    unverified: Unverified
+
+copyright: Documentation release candidate &mdash; implementation verification deferred
+
+nav:
+  - Home: index.md
+  - Preface:
+      - chapter_preface/index.md
+      - How to read this book: start-here.md
+      - Course map: learning-path.md
+      - Specification status: specification-status.md
+      - Review: chapter_preface/review.md
+  - "Chapter 1. From Graph to NPU":
+      - chapter_01_system/index.md
+      - Architecture walkthrough: architecture.md
+      - Reviewed design plan: plan.md
+      - Summary and review: chapter_01_system/review.md
+  - "Chapter 2. Reproducible Truth":
+      - chapter_02_reproducible_truth/index.md
+      - Baseline lesson: lessons/00-baseline.md
+      - Experiment and evidence method: experiment-method.md
+      - Summary and review: chapter_02_reproducible_truth/review.md
+  - "Chapter 3. Exact Integer Inference":
+      - chapter_03_integer_inference/index.md
+      - Numerical contract: numerical-contract.md
+      - Integer inference lesson: lessons/01-integer-inference.md
+      - Summary and review: chapter_03_integer_inference/review.md
+  - "Chapter 4. GEMM and the NPU Core":
+      - chapter_04_gemm_npu/index.md
+      - GEMM and NPU lesson: lessons/02-gemm-and-npu.md
+      - Summary and review: chapter_04_gemm_npu/review.md
+  - "Chapter 5. Commands and Memory":
+      - chapter_05_commands_memory/index.md
+      - Command buffer ABI: command-abi.md
+      - Memory and execution model: memory-execution-model.md
+      - Summary and review: chapter_05_commands_memory/review.md
+  - "Chapter 6. Compiler and Scheduling":
+      - chapter_06_compiler/index.md
+      - Compiler design: compiler-design.md
+      - Compiler lesson: lessons/04-compiler.md
+      - Summary and review: chapter_06_compiler/review.md
+  - "Chapter 7. MMIO, RV64, and Spike":
+      - chapter_07_runtime_riscv/index.md
+      - MMIO and runtime contract: mmio-runtime.md
+      - Runtime and Spike lesson: lessons/05-spike-runtime.md
+      - Summary and review: chapter_07_runtime_riscv/review.md
+  - "Chapter 8. Convolution and Tiny CNN":
+      - chapter_08_cnn/index.md
+      - Convolution lesson: lessons/03-convolution.md
+      - Tiny CNN lesson: lessons/06-tiny-cnn.md
+      - Summary and review: chapter_08_cnn/review.md
+  - "Chapter 9. YOLOv8n Deployment":
+      - chapter_09_yolo/index.md
+      - Target decision: yolo-target.md
+      - Deployment lesson: lessons/07-yolov8n.md
+      - Summary and review: chapter_09_yolo/review.md
+  - "Chapter 10. Timing and RTL":
+      - chapter_10_timing_rtl/index.md
+      - Performance and RTL lesson: lessons/08-performance-rtl.md
+      - Summary and review: chapter_10_timing_rtl/review.md
+  - "Chapter 11. YOLO26 Comparison":
+      - chapter_11_yolo26/index.md
+      - Comparison lesson: lessons/09-yolo26n.md
+      - Summary and review: chapter_11_yolo26/review.md
+  - "Chapter 12. Transformer Systems":
+      - chapter_12_transformer/index.md
+      - Capability track: transformer-track.md
+      - Transformer lesson: lessons/10-transformer.md
+      - Summary and review: chapter_12_transformer/review.md
+  - "Chapter 13. Deformable Convolution":
+      - chapter_13_deformable_conv/index.md
+      - Capability study: deformable-convolution.md
+      - Deformable Conv lesson: lessons/11-deformable-conv.md
+      - Summary and review: chapter_13_deformable_conv/review.md
+  - "Chapter 14. Verification and Project Method":
+      - chapter_14_verification/index.md
+      - Verification plan: verification-plan.md
+      - Executable milestone plan: execution-plan.md
+      - Logic review: logic-review.md
+      - Static scaffold review: scaffold-review.md
+      - Reorganization plan: project/reorganization-plan.md
+      - Reorganization logic review: project/reorganization-logic-review.md
+      - Static code review: project/static-code-review-2026-07-28.md
+      - Summary and review: chapter_14_verification/review.md
+  - Project journal:
+      - Journal index: progress.md
+      - V1 documentation release candidate: _posts/2026-07-28-v1-documentation-baseline.md
+      - Documentation-first review: _posts/2026-07-27-documentation-first-review.md
+      - Project kickoff: _posts/2026-07-27-project-kickoff.md
+      - YOLO target decision: _posts/2026-07-27-yolo-target-decision.md
+      - Capability branches: _posts/2026-07-27-transformers-and-deformable-conv.md
+      - Entry template: _drafts/progress-entry-template.md
+  - Appendices:
+      - Glossary: appendix/glossary.md
+      - References: references.md
+      - Deferred WSL setup: setup-wsl.md
+      - Publishing and maintenance: publishing.md

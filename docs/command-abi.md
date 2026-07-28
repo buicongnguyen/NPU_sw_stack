@@ -415,6 +415,6 @@ identical, not merely semantically equivalent.
 - Every ABI change updates golden bytes, disassembly, malformed cases, runtime
   headers, and the progress article in one reviewed change.
 
-## Continue reading
+## Continue through the specification
 
-Next: [Memory and execution model](memory-execution-model.md)
+Next specification: [Memory and execution model](memory-execution-model.md)

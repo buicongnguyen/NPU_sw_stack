@@ -330,6 +330,6 @@ It does not own command parsing, numerical kernels, counters, or graph logic.
 - [Spike source and API warning](https://github.com/riscv-software-src/riscv-isa-sim)
 - [RISC-V memory-ordering explanation](https://docs.riscv.org/reference/isa/unpriv/mm-eplan.html)
 
-## Continue reading
+## Continue through the specification
 
-Next: [Tiny compiler design](compiler-design.md)
+Next specification: [Tiny compiler design](compiler-design.md)

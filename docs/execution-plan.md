@@ -202,6 +202,7 @@ Status: **design documented; implementation planned**
 ```text
 docs/command-abi.md
 docs/mmio-runtime.md
+docs/lessons/03-commands-memory.md
 include/npu/abi.h
 src/abi.cpp
 python/npu_lab/abi.py

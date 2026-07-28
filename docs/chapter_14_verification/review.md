@@ -16,7 +16,7 @@ keeping executable implementation claims visibly pending.
 
 ## Deferred lab
 
-After WSL setup, work through the unresolved findings in the
-[dated static review](../project/static-code-review-2026-07-28.md), beginning
-with the P1 numerical, zero-dimension, and script-failure cases. Add executed
-evidence without erasing the original review record.
+After WSL setup, execute the corrected numerical, zero-dimension,
+cross-language corpus, and native-command failure gates recorded in the
+[static remediation review](../project/static-remediation-review-2026-07-28.md).
+Add executed evidence without erasing the original review record.

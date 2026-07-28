@@ -1,10 +1,10 @@
 ---
 layout: page
-title: "Lesson 6: Tiny CNN Integration"
+title: "Lesson 6B: Tiny CNN Integration"
 permalink: /lessons/06-tiny-cnn/
 ---
 
-# Lesson 6: tiny CNN integration
+# Lesson 6B: tiny CNN integration
 
 ## Outcome
 

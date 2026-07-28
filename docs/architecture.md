@@ -248,6 +248,6 @@ the final output.
 - [Gemmini](https://github.com/ucb-bar/gemmini)
 - [NVDLA primer](https://nvdla.org/primer.html)
 
-## Continue reading
+## Continue through the specification
 
-Next: [Numerical contract](numerical-contract.md)
+Next specification: [Numerical contract](numerical-contract.md)

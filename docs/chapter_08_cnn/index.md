@@ -26,6 +26,6 @@ intermediate buffers, and compiler scheduling together.
 
 ## Reading path
 
-1. Study the [convolution lesson](../lessons/03-convolution.md).
-2. Continue with the [tiny CNN lesson](../lessons/06-tiny-cnn.md).
+1. Study [Lesson 6A: convolution](../lessons/03-convolution.md).
+2. Continue with [Lesson 6B: tiny CNN](../lessons/06-tiny-cnn.md).
 3. Use the [summary and review](review.md) before moving to YOLO.

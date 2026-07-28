@@ -26,8 +26,9 @@ deliberate checkpoints on that route.
 
 !!! warning "Documentation-first release"
     The contracts and teaching sequence are ready for review. The implementation
-    has only received static inspection. Linux builds, Spike integration, and
-    numerical experiments are deferred until the WSL environment is available.
+    has received static inspection and source-level remediation. Linux builds,
+    Spike integration, and numerical experiments are deferred until the WSL
+    environment is available.
 
 ## Reading routes
 

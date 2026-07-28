@@ -178,6 +178,6 @@ The following require later versioned sections:
 - Softmax and normalization
 - Deformable-convolution offsets and interpolation
 
-## Continue reading
+## Continue through the specification
 
-Next: [Command-buffer ABI](command-abi.md)
+Next specification: [Command-buffer ABI](command-abi.md)

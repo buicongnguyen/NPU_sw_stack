@@ -118,6 +118,7 @@ nav:
       - chapter_05_commands_memory/index.md
       - Command buffer ABI: command-abi.md
       - Memory and execution model: memory-execution-model.md
+      - Command and memory lesson: lessons/03-commands-memory.md
       - Summary and review: chapter_05_commands_memory/review.md
   - "Chapter 6. Compiler and Scheduling":
       - chapter_06_compiler/index.md
@@ -131,8 +132,8 @@ nav:
       - Summary and review: chapter_07_runtime_riscv/review.md
   - "Chapter 8. Convolution and Tiny CNN":
       - chapter_08_cnn/index.md
-      - Convolution lesson: lessons/03-convolution.md
-      - Tiny CNN lesson: lessons/06-tiny-cnn.md
+      - "Lesson 6A. Convolution": lessons/03-convolution.md
+      - "Lesson 6B. Tiny CNN": lessons/06-tiny-cnn.md
       - Summary and review: chapter_08_cnn/review.md
   - "Chapter 9. YOLOv8n Deployment":
       - chapter_09_yolo/index.md
@@ -169,6 +170,7 @@ nav:
       - Post-deployment logic review: project/post-deployment-logic-review-2026-07-28.md
       - Post-deployment code review: project/post-deployment-code-review-2026-07-28.md
       - Static remediation review: project/static-remediation-review-2026-07-28.md
+      - Content and logic review: project/content-logic-review-2026-07-28.md
       - Book style migration plan: project/book-style-plan-2026-07-28.md
       - Book style logic review: project/book-style-logic-review-2026-07-28.md
       - Book style implementation review: project/book-style-implementation-review-2026-07-28.md

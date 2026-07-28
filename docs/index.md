@@ -28,8 +28,9 @@ RTL comparison.
 
 !!! warning "Documentation-first release"
     The book and contracts are the current deliverable. The source scaffold has
-    received static review, but Linux builds, numerical tests, Spike, timing,
-    and RTL experiments remain unverified until WSL is configured.
+    received static review and source-level remediation, but Linux builds,
+    numerical tests, Spike, timing, and RTL experiments remain unverified until
+    WSL is configured.
 
 ## One stack, explicit boundaries
 

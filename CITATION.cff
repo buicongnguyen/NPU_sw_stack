@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this educational project, cite the repository and exact revision."
+type: software
+title: "From Graph to NPU"
+abstract: "A chapter-based guide and learning implementation for a RISC-V-hosted NPU software stack."
+authors:
+  - family-names: Nguyen
+    given-names: Bui Cong
+repository-code: "https://github.com/buicongnguyen/NPU_sw_stack"
+url: "https://buicongnguyen.github.io/NPU_sw_stack/"
+keywords:
+  - NPU
+  - RISC-V
+  - accelerator
+  - machine learning
+  - education

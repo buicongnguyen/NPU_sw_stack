@@ -7,6 +7,9 @@ Date: **2026-07-28**
 Scope: current Python/C++ numerical scaffolds, tests, PowerShell scripts,
 build/CI files, documentation tooling, and publication readiness.
 
+Follow-up: the deployed tree received a
+[post-deployment static review](post-deployment-code-review-2026-07-28.md).
+
 No Python test, C++ build, Docker build, WSL command, sanitizer, or simulator
 was executed for this review.
 

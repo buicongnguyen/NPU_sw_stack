@@ -42,7 +42,9 @@ Start with:
 - [the specification map](docs/specification-status.md);
 - [the reorganization plan](docs/project/reorganization-plan.md);
 - [the reorganization logic review](docs/project/reorganization-logic-review.md);
-- [the static code review](docs/project/static-code-review-2026-07-28.md).
+- [the static code review](docs/project/static-code-review-2026-07-28.md);
+- [the post-deployment logic review](docs/project/post-deployment-logic-review-2026-07-28.md);
+- [the post-deployment static code review](docs/project/post-deployment-code-review-2026-07-28.md).
 
 ## Book structure
 
@@ -89,6 +91,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request and
 [SECURITY.md](SECURITY.md) for private vulnerability reporting guidance. The
 initial documentation release intentionally keeps implementation checks manual
 until the declared Linux environment exists.
+
+Citation metadata is available in [CITATION.cff](CITATION.cff).
 
 ## License status
 

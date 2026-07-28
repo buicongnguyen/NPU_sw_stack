@@ -18,7 +18,11 @@ RTL comparison.
 
 </div>
 
+<div class="npu-hero__visual" markdown>
+
 ![From Graph to NPU](assets/images/npu-stack-logo.svg){ .npu-hero__logo }
+
+</div>
 
 </section>
 

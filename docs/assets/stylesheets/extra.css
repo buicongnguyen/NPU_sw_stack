@@ -45,7 +45,11 @@
 
 .npu-hero__logo {
   width: min(100%, 18rem);
-  justify-self: center;
+}
+
+.npu-hero__visual {
+  display: flex;
+  justify-content: center;
 }
 
 .npu-actions {
@@ -87,8 +91,7 @@
     padding: 1.35rem;
   }
 
-  .npu-hero__logo {
-    order: -1;
-    width: 9rem;
+  .npu-hero__visual {
+    display: none;
   }
 }
